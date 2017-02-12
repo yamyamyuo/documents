@@ -1,0 +1,73 @@
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+    	if (head.next == null && n == 1)
+    		return null;
+        ListNode pre = head;
+        ListNode last = pre;
+        ListNode prepre = pre;
+        int i = n-1;
+        while (i>=0) {
+        	last = last.next;
+        	i--;
+        }
+        while (last!=null) {
+        	prepre = pre;
+        	pre = pre.next;
+        	last = last.next;
+        }
+        if (pre == head) {
+        	head.val = head.next.val;
+        	head.next = head.next.next;
+        } else
+        	prepre.next = pre.next;
+        return head;
+    }
+}
+
+//second solution
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null ||head.next == null)
+            return null;
+        ListNode slow = head, fast = head;
+        for (int i = 0; i < n; i++) {
+            fast = fast.next;
+        }
+        if (fast == null) {//去掉这种情况：总共两个node，n = 2；
+            head = head.next;
+            return head;
+        }
+        while (fast.next!=null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        
+        slow.next = slow.next.next;
+        return head;
+    }
+}
+
+//third solution
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slow = head, fast = head, pre = dummy;
+        int step = n;
+        while (fast!=null&&n>0) {
+            fast = fast.next;
+            n--;
+        }
+        while (fast!=null) {
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next;
+        }
+        if (slow != null) 
+            pre.next = slow.next;
+        else 
+            pre.next = null;
+        
+        return dummy.next;
+    }
+}

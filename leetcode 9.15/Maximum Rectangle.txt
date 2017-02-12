@@ -1,0 +1,58 @@
+public class Solution {
+    //利用largest rectangular in histogram作为一个函数，计算最大面积
+    public int maxarea(int []height) {
+        if (height.length == 0)
+            return 0;
+        
+        Stack<Integer> stk = new Stack<Integer>();
+        Stack<Integer> width = new Stack<Integer>();
+        int area = 0;
+        int wid = 0;
+        int newheight = 0;
+
+        stk.add(-1);//解决height = {0}的情况
+        width.add(0);
+        for (int i = 0; i <= height.length; i++) {
+            if (i < height.length)//这一部分很重要，可以计算完最后一个直方图
+                newheight = height[i];
+            else
+                newheight = -1;
+                
+            if (stk.peek() <= newheight) {
+                stk.push(newheight);
+                width.push(1);
+            } else {
+                
+                wid = 0;
+                int min_h = Integer.MAX_VALUE;
+                while (stk.peek() > newheight) {
+                    wid += width.pop();
+                    min_h = Math.min(min_h, stk.peek());
+                    area = Math.max(area, wid*min_h);
+                    stk.pop();
+                }
+                width.push(wid+1);
+                stk.push(newheight);
+            }
+        }
+        return area;
+    }
+    public int maximalRectangle(char[][] matrix) {
+        int row = matrix.length;
+        int col = row == 0? 0 : matrix[0].length;
+        
+        int []dp = new int[col];
+        int area = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (matrix[i][j] != '0')
+                    dp[j] += matrix[i][j]-48;//从char变成int，必须要减去48~~~~
+                else
+                    dp[j] = 0;
+            }
+            area = Math.max(area,maxarea(dp));
+            //一行一行的计算面积
+        }
+        return area;
+    }
+}

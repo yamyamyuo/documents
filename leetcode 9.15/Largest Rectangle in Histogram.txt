@@ -1,0 +1,39 @@
+public class Solution {
+    public int largestRectangleArea(int[] height) {
+        if (height.length == 0)
+            return 0;
+        
+        Stack<Integer> stk = new Stack<Integer>();
+        Stack<Integer> width = new Stack<Integer>();
+        int area = 0;
+        int wid = 0;
+        int newheight = 0;
+
+        stk.add(-1);//解决height = {0}的情况
+        width.add(0);
+        for (int i = 0; i <= height.length; i++) {
+            if (i < height.length)//这一部分很重要，可以计算完最后一个直方图
+                newheight = height[i];
+            else
+                newheight = -1;
+                
+            if (stk.peek() <= newheight) {
+                stk.push(newheight);
+                width.push(1);
+            } else {
+                
+                wid = 0;
+                int min_h = Integer.MAX_VALUE;
+                while (stk.peek() > newheight) {
+                    wid += width.pop();
+                    min_h = Math.min(min_h, stk.peek());
+                    area = Math.max(area, wid*min_h);
+                    stk.pop();
+                }
+                width.push(wid+1);
+                stk.push(newheight);
+            }
+        }
+        return area;
+    }
+}

@@ -1,0 +1,61 @@
+public class Solution {
+
+    public int maxPoints(Point[] points) {
+    	if (points.length <= 2)
+    		return points.length;
+        HashMap<Double,Integer> map = new HashMap<Double,Integer>();
+        double slope = 0.0;
+        int samepoint = 1,parallepoint,maxpoints = 0;
+        int finalmaxpoints = 0;
+        for (int i = 0; i < points.length - 1; i++) {
+        	samepoint = 1;
+        	parallepoint = 0;
+        	maxpoints = 0;
+        	map.clear();
+        	//the reason not being accepted
+        	for (int j = i + 1; j < points.length; j++) {
+        		if ((points[i].x==points[j].x)&&(points[i].y==points[j].y)) {
+        		    //the second reason not being accepted is the parentheses problem
+        			
+        			samepoint++;
+        			continue;
+        		} else if (points[i].x==points[j].x) {
+        			
+        			parallepoint++;
+        
+        		} else {
+        		    if (points[j].y - points[i].y == 0) {
+        		        slope = 0;
+        		        //the third reason not being accepted
+        		    }
+        		    else {
+        			slope = ((double)(points[j].y - points[i].y))/(points[j].x - points[i].x);
+        		    }
+        			if (map.containsKey(slope)) {
+        				int val = map.get(slope)+1;
+        				map.put(slope, val);
+        				if (val > maxpoints) {
+        					maxpoints = val;
+        				}
+        			} else {
+        				map.put(slope, 1);
+        				if (1 > maxpoints) {
+        					maxpoints = 1;
+        				}
+        			}
+        		}
+
+        	}
+        	if (parallepoint > 0) {
+        		if (parallepoint > maxpoints) {
+        			maxpoints = parallepoint;
+        		}
+        	}
+        	maxpoints += samepoint;
+        	if (maxpoints>finalmaxpoints) {
+        		finalmaxpoints = maxpoints;
+        	}  	
+        }
+        return finalmaxpoints;
+    }
+}

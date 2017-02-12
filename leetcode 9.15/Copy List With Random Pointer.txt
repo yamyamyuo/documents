@@ -1,0 +1,32 @@
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+    	if (head == null) return null;
+    	RandomListNode p = head;
+    	while (p!=null) {
+    		RandomListNode res = new RandomListNode(p.label);
+
+    		res.next = p.next;
+    		p.next = res;
+    		p = p.next.next;
+    	}
+    	p = head;
+    	while (p!=null) {
+    		if (p.random!=null) {
+    			p.next.random = p.random.next;
+    		} else {
+    			p.next.random = null;
+    		}
+    		p = p.next.next;
+    	}
+    	RandomListNode ret = head.next;
+    	RandomListNode tmp = null;
+    	p = head;
+    	while (p.next!=null) {
+    		tmp = p;
+    		p = p.next;//必须要先让p更新再执行下面那一步啊！不然tmp都已经修改了list的值，在执行这一步就错了
+    		tmp.next = tmp.next.next;
+    	}
+    	return ret;
+    }
+}
+

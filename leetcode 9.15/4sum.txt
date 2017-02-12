@@ -1,0 +1,50 @@
+public static List<List<Integer>> fourSum(int[] num, int target) {
+		        Arrays.sort(num);
+		        List<List<Integer>> res = new ArrayList<List<Integer>>();
+		        
+		        
+		        for(int i = 0; i < num.length; i++) {
+		            if (i!=0 && num[i-1] == num[i])
+		                continue;
+		                //num[i+1] == num[i] this strategy is not that good
+		            for (int j = i+1; j < num.length; j++) {
+		                if (j != i+1 && num[j-1] == num[j])
+		                    continue;
+		                    
+		                    int p = j+1;
+		                    int q = num.length - 1;
+		                    
+		                    while (p < q) {
+		                        //because p and q can control not being exceed the array
+		                        //so you don't need to make j < num.length - 1;
+		                        int sum = num[i] + num[j] + num[p] + num[q];
+		                        if (sum == target) {
+		                            List<Integer> tmp = new ArrayList<Integer>();
+		                            tmp.add(num[i]);
+		                            tmp.add(num[j]);
+		                            tmp.add(num[p]);
+		                            tmp.add(num[q]);
+		                            Collections.sort(tmp);
+		                            res.add(tmp);
+		                            //tmp.clear();
+		                            //this is important ,this is called java reference
+		                            while (++p < q && num[p] == num[p-1])
+		                            ;
+		                            
+		                            while (p < --q && num[q] == num[q+1])
+		                            ;
+		                          //p and q must be+1 simultaniously,because while sum == target, it 
+		                            //says that p,q must move to the next value at the same time
+		                            //or else, it would not equald
+		                            
+		                        }
+		                        else if (sum < target)
+		                            p++;
+		                        else
+		                            q--;
+		                    }
+		            }
+		            
+		        }
+		        return res;
+		    }

@@ -1,0 +1,26 @@
+public static void helper(List<String> ans, int step, String path, String digits) {
+	        String [] str = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+	        
+	        if (step == digits.length()) {
+	        	//why not digits.length() - 1,see below helper's step+1
+	        	
+	            ans.add(path);
+	            
+	            return ;
+	        }
+	        for (int i = 0; i < str[digits.charAt(step) - '0'].length(); i++) {
+	        	//System.out.println(str[digits.charAt(step) - '0'].length());
+				char c = str[digits.charAt(step) - '0'].charAt(i);
+				path += c;
+	           	helper(ans,step+1,path,digits);
+	           	path = path.substring(0, path.length()-1);
+	   	        }
+	    }
+	    public static List<String> letterCombinations(String digits) {
+	        int step = 0;
+	        String path = new String();
+	        List<String> ans = new ArrayList<String>();
+	        helper(ans, step, path, digits);
+	        
+	        return ans;
+	    }

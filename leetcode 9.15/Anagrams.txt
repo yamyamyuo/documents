@@ -1,0 +1,31 @@
+public class Solution {
+    
+    public String toSortedString(String str) {
+        char[] tmp = str.toCharArray();
+        Arrays.sort(tmp);
+        String res = new String(tmp);//这句话很重要
+        //直接返回tmp.toString()是不行的，会有一堆乱码
+        return res;
+    }
+    
+    public List<String> anagrams(String[] strs) {
+        List<String> res = new ArrayList<String>();
+        
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        
+        for (int i = 0; i < strs.length; i++) {
+            String tmp = toSortedString(strs[i]);
+            if (map.containsKey(tmp)) {
+                int loc = map.get(tmp);
+                if (loc!=-1) {
+                    res.add(strs[loc]);
+                }
+                res.add(strs[i]);
+                map.put(tmp, -1);
+            } else {
+                map.put(tmp, i);
+            }
+        }
+        return res;
+    }
+}

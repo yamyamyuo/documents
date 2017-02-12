@@ -1,0 +1,24 @@
+public static double findKth(int A[], int astart, int m, int B[], int bstart, int n, int k) {
+		//assumes that m always smaller than n
+		if (n<m) 
+			return findKth(B,bstart,n,A,astart,m,k);
+		if (m == 0)
+			return B[bstart + k-1];
+		//aware that an array starts at 0;
+		if (k == 1)
+		//why k==1 can find the answer? because there is only one element left, it must be the 
+		//median
+			return Math.min(A[astart], B[bstart]);
+		//divide k into two part
+		int pa = Math.min(k/2, m);
+		int pb = k - pa;
+		
+		if (A[astart + pa - 1] < B[bstart + pb - 1])
+			return findKth(A,astart+pa,m-pa,B,bstart,n,k-pa);
+		else if (A[astart+pa-1]>B[bstart+pb-1])
+			return findKth(A,astart,m,B,bstart+pb,n-pb,k-pb);
+		else
+			return A[astart+pa-1];
+			
+		
+	}

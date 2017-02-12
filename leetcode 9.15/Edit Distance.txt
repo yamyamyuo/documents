@@ -1,0 +1,75 @@
+
+public class Solution {
+    public int minDistance(String word1, String word2) {
+        int len1 = word1.length();
+        int len2 = word2.length();
+        
+        if (len1==0 || len2 == 0)
+            return len1>len2?len1:len2;
+        if (len1<2||len2<2) {
+            if (word1.charAt(0) == word2.charAt(0)) {
+                return Math.abs(len1-len2);
+            }
+            else
+            return Math.max(len1,len2);
+        }
+        
+        len1 +=1;
+        len2 +=1;
+        
+        int [][]dp = new int[len1][len2];
+        
+        for (int i = 0; i < len2; i++) {
+            dp[0][i] = i;
+        }
+        for (int i = 0; i < len1; i++) {
+            dp[i][0] = i;
+        }
+        
+        for (int i = 1; i < len1; i++) {
+            for (int j = 1; j < len2; j++) {
+                if (word1.charAt(i-1) == word2.charAt(j-1))//这里要记得减一啊，因为外面的循环是给dp的
+                    dp[i][j] = dp[i-1][j-1];
+                else
+                    dp[i][j] = Math.min(dp[i-1][j-1], Math.min(dp[i-1][j],dp[i][j-1])) +1;
+            }
+        }
+        return dp[len1-1][len2-1];
+    }
+}
+
+
+
+
+
+
+
+下面来分析下题目规定的三个操作：添加，删除，替换。
+假设word1[i]和word2[j](此处i = j)分别为：michaelab和michaelxy
+显然如果b==y, 那么dis[i][j] = dis[i-1][j-1]。
+如果b!=y，那么：
+添加：也就是在michaelab后面添加一个y，那么word1就变成了michaelaby，此时
+dis[i][j] = 1 + dis[i][j-1]；
+上式中，1代表刚刚的添加操作，添加操作后，word1变成michaelaby，word2为michaelxy。
+dis[i][j-1]代表从word[i]转换成word[j-1]的最小Edit Distance，
+也就是michaelab转换成michaelx
+的最小Edit Distance，由于两个字符串尾部的y==y，所以只需要将michaelab变成michaelx就可以了，
+而他们之间的最小Edit Distance就是dis[i][j-1]。
+删除：也就是将michaelab后面的b删除，那么word1就变成了michaela，此时
+dis[i][j] = 1 + dis[i-1][j]；
+上式中，1代表刚刚的删除操作，删除操作后，word1变成michaela，word2为michaelxy。
+dis[i-1][j]代表从word[i-1]转换成word[j]的最小Edit Distance，也就是michaela转换
+成michaelxy的最小Edit Distance，所以只需要将michaela变成michaelxy就可以了，而他们之间的
+最小Edit Distance就是dis[i-1][j]。
+替换：也就是将michaelab后面的b替换成y，那么word1就变成了michaelay，此时
+dis[i][j] = 1 + dis[i-1][j-1]；
+上式中，1代表刚刚的替换操作，替换操作后，word1变成michaelay，word2为michaelxy。dis[i-1][j-1]代表从word[i-1]转换成word[j-1]的最小Edit Distance，也即是michaelay转换成michaelxy的最小Edit Distance，由于两个字符串尾部的y==y，所以只需要将michaela变成michaelx就可以了，而他们之间的最小Edit Distance就是dis[i-1][j-1]。
+最后只需要看着三种方案哪种最小，就采用哪种的编辑方案。
+
+
+
+
+
+
+
+*/

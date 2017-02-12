@@ -1,0 +1,13 @@
+public class Solution {
+    public int maxSubArray(int[] A) {
+        int maxhere = A[0];
+        int maxsofar = A[0];
+        
+        for (int i = 1; i < A.length; i++) {
+            maxhere = Math.max(maxhere+A[i], A[i]);
+            maxsofar = Math.max(maxsofar, maxhere);
+        }
+        
+        return maxsofar;
+    }
+}

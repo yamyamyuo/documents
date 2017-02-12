@@ -1,0 +1,43 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> level = new ArrayList<Integer>();
+        Stack<TreeNode> curr_stack = new Stack<TreeNode>();
+        Stack<TreeNode> next_stack = new Stack<TreeNode>();
+        if (root == null)
+            return res;
+        curr_stack.push(root);
+        while (!curr_stack.isEmpty() || !next_stack.isEmpty()) {
+            if (!curr_stack.isEmpty()) {//这个条件是必要的，不然stack为空的时候都会加进res里去
+                while (!curr_stack.isEmpty()) {
+                    TreeNode currNode = curr_stack.pop();
+                    level.add(currNode.val);
+                    if (currNode.left!= null) next_stack.push(currNode.left);
+                    if (currNode.right!=null) next_stack.push(currNode.right);
+                }
+            res.add(new ArrayList<Integer>(level));
+            level.clear();
+            }
+            if (!next_stack.isEmpty()) {
+                while (!next_stack.isEmpty()) {
+                    TreeNode nextNode = next_stack.pop();
+                    level.add(nextNode.val);
+                    if (nextNode.right!=null) curr_stack.push(nextNode.right);
+                    if (nextNode.left!=null) curr_stack.push(nextNode.left);
+                }
+            res.add(new ArrayList<Integer>(level));
+            level.clear();
+            }
+        }
+        return res;
+    }
+}

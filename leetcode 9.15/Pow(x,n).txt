@@ -1,0 +1,46 @@
+public static double pow(double x, int n) {
+        if (n == 0)
+        	return 1.0;
+        if (n < 0) {
+        	if (n == Integer.MIN_VALUE) {
+        		return 1.0/(x*pow(x,Integer.MAX_VALUE));
+        		//因为x的负无穷等于1/（x的正无穷）
+        		//然而有个问题，如果x为负数的话，经过正无穷计算，实际上得数是正数，因此多乘上一个x就能抵消掉正负号~
+        	} else {
+        		return 1.0/pow(x,-n);
+        	}
+        }
+        double res = 1.0;
+        for(;n>0;x*=x,n>>=1) {
+        	//n>>=1这是啥,x*=x必须放在这上面!!!	
+        	if ((n&1)>0) {
+        		//需要括号，不然出错
+        		res *= x;
+        	}
+        }
+        return res;
+    }
+
+
+//second solution
+
+public double power(double x, int n) {
+	if (n == 0)
+		return 1;
+ 
+	double v = power(x, n / 2);
+ 
+	if (n % 2 == 0) {
+		return v * v;
+	} else {
+		return v * v * x;
+	}
+}
+ 
+public double pow(double x, int n) {
+	if (n < 0) {
+		return 1 / power(x, -n);
+	} else {
+		return power(x, n);
+	}
+}

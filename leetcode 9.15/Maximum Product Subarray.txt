@@ -1,0 +1,18 @@
+public class Solution {
+    public int maxProduct(int[] A) {
+        if (A.length == 0)
+            return 0;
+        int max_local = A[0];
+        int min_local = A[0];
+        int global = A[0];//初始化工作要做好啊
+        for (int i = 1; i < A.length; i++) {
+            int max_copy = max_local;
+            max_local = Math.max(A[i], Math.max(min_local*A[i], max_copy*A[i]));
+            min_local = Math.min(A[i], Math.min(min_local*A[i], max_copy*A[i]));
+            global = Math.max(global, max_local);
+        }
+        return global;
+        
+    }
+    
+}

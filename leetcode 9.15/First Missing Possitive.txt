@@ -1,0 +1,26 @@
+public class Solution {
+    public void swap(int []A, int m, int n) {
+        int tmp = A[m];
+        A[m] = A[n];
+        A[n] = tmp;
+        
+    }
+    public int firstMissingPositive(int[] A) {
+        if (A.length < 1)
+            return 1;
+        int p = 0;
+        while (p < A.length) {
+            int res = A[p];
+            if (res>0 && res <= A.length && res != p+1 && A[res-1] != res)
+                swap(A,res-1,p);
+            else
+                p++;
+        }
+       
+        for (int i = 0; i < A.length; i++) {
+            if (A[i]!=i+1)
+                return i+1;
+        }
+        return A.length+1;
+    }
+}

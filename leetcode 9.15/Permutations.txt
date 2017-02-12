@@ -1,0 +1,28 @@
+public class Solution {
+    public void helper(int[] num, int step, int [] visited,List<List<Integer>> res, List<Integer> path) {
+        if (step == num.length) {
+            res.add(new ArrayList<Integer>(path));
+            return ;
+        }
+        
+        for (int i = 0; i < num.length; i++) {
+            
+            if (visited[i] == 0) {
+                path.add(num[i]);
+                visited[i] = 1;
+                helper(num,step+1,visited,res,path);
+                path.remove(path.size()-1);
+                visited[i] = 0;
+            }
+        }
+    }
+    public List<List<Integer>> permute(int[] num) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> path = new ArrayList<Integer>();
+        if (num == null||num.length == 0)
+            return res;
+        int[] visited = new int[num.length];
+        helper(num,0,visited,res,path);
+        return res;
+    }
+}

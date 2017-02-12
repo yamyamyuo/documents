@@ -1,0 +1,32 @@
+public class Solution {
+    public void merge(int A[], int m, int B[], int n) {
+        int i = m-1;
+        int j = n-1;
+        int k = m+n-1;
+
+        while (k>=0) { 
+            if (j<0||(i>=0&&(A[i] > B[j]))){//这个条件非常的关键
+                A[k--] = A[i--];
+            }
+            else {
+                A[k--] = B[j--];
+            }
+        }
+    }
+}
+
+public class Solution {
+    public void merge(int A[], int m, int B[], int n) {
+        int endA = m - 1;
+        int endB = n - 1;
+        int end = m + n - 1;
+        while(endA >= 0 && endB >= 0) {//当B为空的时候，直接不用做了
+            if(A[endA] > B[endB])
+                A[end--] = A[endA--];
+            else 
+                A[end--] = B[endB--];
+        }
+        while (endB >= 0)//当A为空的时候，只需要执行B了
+            A[end--] = B[endB--];
+    }
+}

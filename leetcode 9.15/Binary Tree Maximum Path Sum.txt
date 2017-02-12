@@ -1,0 +1,48 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+
+   
+	
+	public int maxSum(TreeNode root, int []max) {
+		if (root == null)
+			return 0;
+		int val = root.val;
+		int lmax = 0;
+		int rmax = 0;
+		
+		if (root.left != null) {
+			lmax = maxSum(root.left,max);
+			if (lmax > 0) {
+				val += lmax;
+			}
+		}
+		
+		if (root.right != null) {
+			rmax = maxSum(root.right,max);
+			if (rmax > 0)
+				val += rmax;
+		}
+		
+		if (max[0] < val)
+			max[0] = val;//val是将左右子树最大path链接起来的桥梁
+		
+		return Math.max(root.val, Math.max(root.val+lmax, root.val+rmax));//只能返回一个节点是本身最大，还是左边家本身大，还是右边家本身大，没有办法让左右两边联通，但是它可以让每个节点记录最大的路径，然后val将路径左右两边加起来
+	}
+	
+	public int maxPathSum(TreeNode root) {
+		if (root == null)
+			return 0;
+		int [] max = new int[1];
+		max[0] = Integer.MIN_VALUE;	
+		maxSum(root,max);
+		return max[0];
+	}
+}

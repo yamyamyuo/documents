@@ -1,0 +1,27 @@
+public class MaximumSubarray {
+    public int maxSubArray(int[] A) {
+        return solve(A, 0, A.length - 1);
+    }
+ 
+    private int solve(int[] A, int low, int high) {
+        if (low == high) {
+            return A[low];
+        }
+        int mid = low + (high - low)/ 2;
+        int leftMax = solve(A, low, mid);
+        int rightMax = solve(A, mid + 1, high);
+        int leftSum = A[mid];
+        int sum = A[mid];
+        for (int i = mid - 1; i >= low; --i) {
+            sum += A[i];
+            leftSum = Math.max(leftSum, sum);
+        }
+        int rightSum = A[mid + 1];
+        sum = A[mid + 1];
+        for (int i = mid + 2; i <= high; ++i) {
+            sum += A[i];
+            rightSum = Math.max(rightSum, sum);
+        }
+        return Math.max(Math.max(leftMax, rightMax), leftSum + rightSum);
+    }
+}

@@ -1,0 +1,27 @@
+public class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null)
+        	return 0;
+        int ld = maxDepth(root.left);
+        int rd = maxDepth(root.right);
+        
+        return Math.max(ld,rd)+1;
+    }
+}
+//上面这个其实是从叶子开始从1数起
+//下面的方法是自上而下的计数方法
+
+public class Solution {
+    public int dfs(TreeNode root, int depth) {
+        if (root == null)
+            return depth;
+        
+        int lmax = dfs(root.left, depth+1);
+        int rmax = dfs(root.right, depth+1);
+        return Math.max(lmax, rmax);
+    }
+    public int maxDepth(TreeNode root) {
+
+        return dfs(root, 0);//为什么从零开始呢，因为上面dfs是return depth的，所以说在null时，多加了一层，因此根节点少加一层
+    }
+}

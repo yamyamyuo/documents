@@ -1,0 +1,37 @@
+public class Solution {
+    //题目没有看的很明白，要求是给出n，求出这个序列中第n位的count-and-say是什么
+    //理解题目以后，可以通过从1开始一直往后推到，看看n能够等于什么~
+    //用string直接让s = int + '0'会出问题，就用stringbuffer
+    public String helper(String s) {
+        char pre = s.charAt(0);
+        int count = 1;
+        StringBuffer res = new StringBuffer();
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == pre) {
+                count++;
+                //当进入了这个循环以后，又当i>=s.length()的时候，就没有append进去啊，所以下面。。。
+            } else {
+            
+            res.append(count).append(pre);
+            pre = s.charAt(i);
+            count = 1;
+            }
+            
+        }
+        //当s = 1的时候进不去上面的循环
+        res.append(count).append(pre);
+        
+        return res.toString();
+    }
+    public String countAndSay(int n) {
+        if (n == 0)
+            return "";
+        String say = "1";
+        for (int i = 1; i < n; i++) {
+            say = helper(say);
+            
+        }
+        return say;
+        
+    }
+}

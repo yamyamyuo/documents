@@ -1,0 +1,49 @@
+public int longestValidParentheses(String s) {
+        int max = 0;
+        int last = -1;
+        Stack<Integer> stk = new Stack<Integer> ();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stk.push(i);
+            } else {
+                if (stk.isEmpty()) {
+                    last = i;// when it is ')',the end of last conjective parentheses
+                    
+                } else {
+                    stk.pop();
+                    if (stk.isEmpty())//when the stack is empty, you can't peek()
+                        max = Math.max(max, i - last);
+                    else   
+                        max = Math.max(max, i - stk.peek());
+                }
+            }
+            
+        }
+        return max;
+    }
+
+
+//dp
+public class Solution {
+    public int longestValidParentheses(String s) {
+        int max = 0;
+        int len = s.length();
+        if (len == 0)
+            return 0;
+            
+        int []dp = new int[len];
+        for (int i = len-2; i >= 0; i--) {
+            if (s.charAt(i) == '(') {
+                int j = i+1+dp[i+1];
+                if (j<len&&s.charAt(j)==')') {
+                    dp[i] = dp[i+1]+2;
+                    if (j+1<len) {
+                        dp[i] += dp[j+1];
+                    }
+                }
+            }
+            max = max>dp[i]? max:dp[i];
+        }
+        return max;
+    }
+}

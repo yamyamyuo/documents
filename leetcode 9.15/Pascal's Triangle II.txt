@@ -1,0 +1,21 @@
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> res = new ArrayList<Integer>();
+        res.add(1);//千万别放进循环里面去add,这不是数组
+        int p = 0;
+        int tmp = 0;
+        for (int i = 1; i <= rowIndex; i++) {
+            p = res.get(0);
+            for (int j = 1; j <= i; j++) {
+                if (j == i) {
+                    res.add(1);
+                } else {
+                    tmp = p;    //缓存的机制，让上一次的结果不要丢失
+                    p = res.get(j);
+                    res.set(j,p+tmp);
+                }
+            }
+        }
+        return res;
+    }
+}

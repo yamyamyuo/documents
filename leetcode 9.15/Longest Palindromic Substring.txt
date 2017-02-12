@@ -1,0 +1,41 @@
+public class Solution {
+    public String longestPalindrome(String s) {
+        if (s.length() == 0) {
+            return "";
+        }
+        if (s.length() == 1)
+            return s;
+            
+        boolean [][]dp = new boolean[s.length()][s.length()];
+        int maxlen = 0;
+        int left = 0, right = 0;
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (i>=j)
+                    dp[i][j] = true;
+                else
+                    dp[i][j] = false;
+            }
+        }
+        
+        for (int j = 1; j < s.length(); j++) {
+            for (int i = 0; i < j; i++) {
+                if (s.charAt(i) != s.charAt(j)) {
+                    dp[i][j] = false;
+                } else {
+                    dp[i][j] = dp[i+1][j-1];
+                    int len = j-i+1;
+                    if (dp[i][j]&&len > maxlen) {
+                        //还要dp[i][j] == true才行~
+                        maxlen = len;
+                        left = i;
+                        right = j;
+                    }
+                        
+                }
+            }
+        }
+        return s.substring(left,right+1);
+    }
+    
+}

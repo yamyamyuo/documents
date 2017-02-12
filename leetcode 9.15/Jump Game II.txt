@@ -1,0 +1,25 @@
+public class Solution {
+    
+    public int jump(int A[]) {
+        if (A.length < 2)//don't forget it
+            return 0;
+            
+        int cur_reach = 0;
+        int next_reach = 0;
+        int step = 0;
+        for(int i = 0; i < A.length; ) {
+            if (cur_reach >= A.length-1)// don't u forget it
+                break;
+                
+            while (i <= cur_reach) {
+                next_reach = next_reach > i+A[i] ? next_reach : i+A[i];
+                i++;
+            }
+            cur_reach = next_reach;
+            step++;
+        }
+        
+        return step;
+    }
+
+}

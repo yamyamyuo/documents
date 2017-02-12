@@ -1,0 +1,64 @@
+	public List<Integer> postorderTraversal(TreeNode root) {
+		Stack<TreeNode> stk = new Stack<TreeNode>();
+		List<Integer> path = new ArrayList<Integer>();
+		TreeNode mark = root;
+		
+		if (root != null) {stk.push(root);} 
+		
+		while (!stk.empty()) {
+			root = stk.peek();
+			if (((root.right == null)&&(root.left == null)) || (root.right == mark)||(root.left == mark)) {
+				path.add(root.val);
+				mark = root;
+				stk.pop();
+			} else {
+				if (root.right!=null) {stk.push(root.right);}
+				if (root.left!=null) {stk.push(root.left);}
+			}
+			
+		}
+		return path;
+		
+	}
+
+
+//这道题必须添加一个curr和pre指针来标记到底应不应该输出某个节点
+public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode curr = root;
+        TreeNode pre = null;
+        do {
+            //一直往左下走到头
+            while (curr!=null) {
+                stack.add(curr);
+                curr = curr.left;
+            }
+            pre = null;//对于一颗新的小树，当前还没有访问呢
+            
+            while (!stack.isEmpty()) {
+                curr = stack.pop();
+                
+                //当右边的孩子不存在（null）或右孩子已经被访问了，则访问curr
+                if (curr.right == pre) {
+                    res.add(curr.val);
+                    pre = curr;//记录刚刚已经被访问的节点
+                    
+                } else {
+                    //当前节点还不能被访问，再次进栈
+                    stack.add(curr);
+                    //先处理右子树
+                    curr = curr.right;
+                    break;
+                }
+            }
+            
+            
+        } while (!stack.isEmpty());
+            
+        return res;
+        
+    }
+
+}

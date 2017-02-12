@@ -1,0 +1,22 @@
+public class Solution {
+
+    public boolean canJump(int A[]) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = A.length;
+        int step = A[0];
+        for (int i = 1; i < len; i++) {//move on to the next one
+            if (step == 0)
+                return false;
+                
+            step--;//it should be in this position, since ...
+            if (step + i>= len)
+                return true;
+            if (step < A[i]) {
+                step = A[i];
+            }
+            
+        }
+        return true;
+    }
+}

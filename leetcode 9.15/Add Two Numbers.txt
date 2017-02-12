@@ -1,0 +1,28 @@
+public class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+       int carry = 0;
+       ListNode p1 = l1, p2 = l2, l3 = new ListNode(0);
+       ListNode p3 = l3;//别忘记这一句，不然返回值的时候找不到头
+       
+       while (p1!=null || p2!=null) {
+           if (p1!=null) {
+               carry += p1.val;
+               p1 = p1.next;
+           }
+           
+           if (p2!=null) {
+               carry += p2.val;
+               p2 = p2.next;
+           }
+           
+           p3.next = new ListNode(carry%10);
+           p3 = p3.next;//竟然忘记写这一句了
+           carry = carry/10;
+       }
+       
+       if (carry != 0) {
+           p3.next = new ListNode(carry);
+       }
+       return l3.next;
+    }
+}

@@ -1,0 +1,34 @@
+public class Solution {
+    /*
+ public class myComparator implements Comparator<Interval> {
+        public int compare(Interval i1, Interval i2) {
+            return i1.start - i2.start;
+        }
+    }*/
+    public List<Interval> merge(List<Interval> intervals) {
+        if(intervals.size() == 0)
+            return intervals;
+        List<Interval> res = new ArrayList<Interval>();
+        Collections.sort(intervals, new Comparator<Interval>() {
+            public int compare(Interval i1, Interval i2) {
+                return i1.start - i2.start;
+            }
+            });
+        int startTime = intervals.get(0).start, endTime = intervals.get(0).end;
+
+        for(Interval i : intervals) {
+            if(i.start > endTime) {
+                Interval interval = new Interval(startTime, endTime);
+                res.add(interval);
+                startTime = i.start;
+                endTime = i.end;
+            }
+            else {
+                endTime = Math.max(endTime, i.end);
+            }
+        }
+        Interval interval = new Interval(startTime, endTime);
+        res.add(interval);
+        return res;
+    }
+}

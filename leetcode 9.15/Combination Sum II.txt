@@ -1,0 +1,57 @@
+public class Solution {
+        public void comHelper(int []candidates, int target, int start, int sum, List<List<Integer>> res, List<Integer> path) {
+        if (sum > target)
+            return;
+        if (sum == target) {
+            res.add(new ArrayList<Integer>(path));
+        }
+        int len = candidates.length;
+        for (int i = start; i < len && target - sum >= candidates[i]; i++) {
+            
+            path.add(candidates[i]);
+            comHelper(candidates, target, i+1, sum+candidates[i], res, path);//why i+1 not start+1
+            path.remove(path.size()-1);//remenber it 
+            while (i<len-1&&candidates[i]==candidates[i+1])
+                i++;
+        }
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+           List<List<Integer>> res = new ArrayList<List<Integer>>();//when write new ArrayList<List<Integer>>();is wrong !!
+           List<Integer> path = new ArrayList<Integer>();
+           Arrays.sort(candidates);//remember this 
+           comHelper(candidates, target, 0, 0, res, path);
+           return res;
+    }
+
+}
+
+//注意事项
+public class Solution {
+    public void helper(int []num, int target, int start, int sum, List<List<Integer>> res, List<Integer> path) {
+        if (sum == target) {
+            res.add(new ArrayList<Integer>(path));
+            return ;
+        }
+        for (int i = start; i < num.length && target >= sum + num[i]; i++) {
+            
+            path.add(num[i]);
+            sum+=num[i];
+            helper(num, target, i+1, sum, res, path);
+            sum-=num[i];
+            path.remove(path.size()-1);
+            //这种方法没法去重，代入1，1，2，2试试
+            //while (i!=0&&i < num.length-1 && num[i] == num[i-1])
+              //  i++;
+            while (i< num.length-1 && num[i] == num[i+1])
+                i++;
+        }
+            
+    }
+    public List<List<Integer>> combinationSum2(int[] num, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> path = new ArrayList<Integer>();
+        Arrays.sort(num);
+        helper(num, target, 0, 0, res, path);
+        return res;
+    }
+}

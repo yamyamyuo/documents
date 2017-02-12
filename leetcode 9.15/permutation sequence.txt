@@ -1,0 +1,80 @@
+class Solution {  
+public:  
+    
+    string getPermutation(int n, int k) {
+        vector<int> num;//怎么不需要分配空间的？
+        vector<int> factor(1,1);//这个是已经分配了第一个空间，赋值为1，下面阶乘的时候也用到了
+
+        for(int i = 1; i <= n; i++){
+            num.push_back(i);
+            factor.push_back(factor[i - 1] * i);
+        }
+        //这步结束之后，假设n = 4，factor = [1,1,2,6,24];第一个1不要删掉，因为下面的循环会用到，不然就越界了。
+        string s;
+        while(k > 0 && num.size() > 0) {
+
+            int index = (k -1) / factor[n -1];//k-1解决了边界的问题比如n = 4，k = 6的时候，k = 7的时候的边界问题。
+            s.push_back(num[index] + 48);
+            num.erase(num.begin() + index);
+            k = k - index * factor[n - 1];//不要取模运算，有些整除的就得到0的结果，无法继续进行
+            n --;
+        }
+        
+        return s;
+    }
+};  
+
+vector的读取也是从0开始的，因此要特别注意factor那块的index控制，不要越界
+
+
+
+
+//a better way
+假设有n个元素，第K个permutation是
+a1, a2, a3, .....   ..., an
+那么a1是哪一个数字呢？
+
+那么这里，我们把a1去掉，那么剩下的permutation为
+a2, a3, .... .... an, 共计n-1个元素。 n-1个元素共有(n-1)!组排列，那么这里就可以知道
+
+设变量K1 = K
+a1 = K1 / (n-1)!
+
+同理，a2的值可以推导为
+a2 = K2 / (n-2)!
+K2 = K1 % (n-1)!
+ .......
+a(n-1) = K(n-1) / 1!
+K(n-1) = K(n-2) /2!
+
+an = K(n-1)
+
+
+1:       string getPermutation(int n, int k) {  
+2:            vector<int> nums(n);  
+3:            int permCount =1;  
+4:            for(int i =0; i< n; i++)  
+5:            {  
+6:                 nums[i] = i+1;  
+7:                 permCount *= (i+1);        
+8:            }  
+9:            // change K from (1,n) to (0, n-1) to accord to index  
+10:            k--;  
+11:            string targetNum;  
+12:            for(int i =0; i< n; i++)  
+13:            {    
+14:                 permCount = permCount/ (n-i);  
+15:                 int choosed = k / permCount;  
+16:                 targetNum.push_back(nums[choosed] + '0');  
+17:                 //restruct nums since one num has been picked  
+18:                 for(int j =choosed; j< n-i; j++)  
+19:                 {  
+20:                      nums[j]=nums[j+1];  
+21:                 }  
+22:                 k = k%permCount;  
+23:            }  
+24:            return targetNum;  
+25:       }  
+
+
+

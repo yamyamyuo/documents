@@ -1,0 +1,28 @@
+/*观察一下题目的solution,组合都是先小后大的，别从后往前搜
+*/
+public class Solution {
+    public void helper(int step, int n, int k, int level, List<Integer> com, List<List<Integer>> res) {
+        if (n < 0 || k < 0)
+            return ;
+            
+        if (level == k) {
+            //Collections.sort(com);不能够直接sort他，因为会把com的节奏打乱，导致com 进行remove的时候删掉不该删除的元素
+            res.add(new ArrayList<Integer>(com));
+            return ;//不写return是不行的！！递归跳不出来！白白递归无用功
+        
+        }
+        for (int i = step; i <= n; i++) {
+            com.add(i);
+            helper(i+1, n, k,level+1, com, res);
+            com.remove(com.size()-1);
+        }
+    }
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> com = new ArrayList<Integer>();
+        
+        helper(1,n,k,0,com,res);
+        return res;
+    }
+}
+//还是需要加一些step，level这些变量作为辅助，n是不能够改变它的

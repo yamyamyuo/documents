@@ -1,0 +1,45 @@
+public class Solution {
+	List<Integer> list = new ArrayList<Integer>();
+	
+	public void dfs(TreeNode root) {
+		if (root == null)
+			return ;
+		dfs(root.left);
+		list.add(root.val);
+		dfs(root.right);
+
+	}
+    public List<Integer> inorderTraversal(TreeNode root) {
+    	list.clear();
+    	dfs(root);
+        return list;
+    }
+}
+
+//非递归
+public class Solution {
+    public void dfs(TreeNode root, List<Integer> path, Stack<TreeNode> stk) {
+
+        while (!stk.isEmpty() || root!=null) {//曾经不会写这个条件，root！=null导致很多小bug
+        
+            while (root != null) {
+            stk.add(root);
+            root = root.left;
+            }
+            root = stk.pop();
+            path.add(root.val);
+            root = root.right;
+            
+        }
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> path = new ArrayList<Integer>();
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        if (root == null)
+            return path;
+        
+        dfs(root, path, stk);
+        return path;
+        
+    }
+}
