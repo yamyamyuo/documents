@@ -50,8 +50,8 @@ public class Solution {
                     stack.add(curr);
                     //先处理右子树
                     curr = curr.right;
-                    break;
-                }
+                    break;// 为什么要break，因为需要跳出来到外层继续去添加左半拉的节点
+                }
             }
             
             
