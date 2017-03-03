@@ -7,6 +7,7 @@
 		
 		while (!stk.empty()) {
 			root = stk.peek();
+			// 为什么	(root.right == mark)||(root.left == mark)是或的关系，因为有的树是只有左边或者只有右边，只要保证root的左或者右被遍历过，那么必定轮到root输出了		
 			if (((root.right == null)&&(root.left == null)) || (root.right == mark)||(root.left == mark)) {
 				path.add(root.val);
 				mark = root;
@@ -37,7 +38,9 @@ public class Solution {
             }
             pre = null;//对于一颗新的小树，当前还没有访问呢
             
-            while (!stack.isEmpty()) {
+	    // 为什么要一直while循环，因为有一种情况，只有左半边的树，右半边的全部都没有，所以需要一直循环左边直到全部输出到path为止
+            while (!stack.isEmpty()) {
+           
                 curr = stack.pop();
                 
                 //当右边的孩子不存在（null）或右孩子已经被访问了，则访问curr
